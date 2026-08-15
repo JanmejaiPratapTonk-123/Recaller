@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+
+  "name": "Recaller",
+  "version": "1.0",
+  "description": "An AI-powered coding companion that turns accepted DSA solutions into structured explanations, line-by-line insights, complexity analysis, and reusable revision notes.",
+
+  "permissions": ["scripting"],
+
+  "host_permissions": ["https://leetcode.com/*"],
+
+  "content_scripts": [
+    {
+      "matches": ["https://leetcode.com/problems/*"],
+      "js": ["interceptor.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://leetcode.com/problems/*"],
+      "js": ["content.js"]
+    }
+  ],
+
+  "background": {
+    "service_worker": "service-worker.js"
+  }
+}
