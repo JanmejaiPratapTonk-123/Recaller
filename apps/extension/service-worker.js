@@ -27,3 +27,25 @@ function processSubmission(submission) {
     });
   });
 }
+
+function getSubmissions() {
+  chrome.storage.local.get("submissions", (result) => {
+    console.log(result.submissions);
+  });
+}
+
+getSubmissions();
+
+function getSubmissionsByQuestionId(questionId) {
+  return new Promise((resolve) => {
+    chrome.storage.local.get("submissions", (result) => {
+      const submissions = result.submissions ?? [];
+
+      const filteredSubmissions = submissions.filter((submission) => {
+        return submission.questionId === questionId;
+      });
+
+      resolve(filteredSubmissions);
+    });
+  });
+}
