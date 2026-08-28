@@ -1,14 +1,7 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponese) => {
   if (message.type === "SUBMISSION_ACCEPTED") {
-    const submission = {
-      submissionId: message.data.submissionId,
-      language: message.data.language,
-      questionId: message.data.questionId,
-      code: message.data.code,
-      title: message.data.title,
-      difficulty: message.data.difficulty,
-      url: message.data.url,
-    };
+    const submission = message.data;
+
     processSubmission(submission);
   }
 });
