@@ -36,6 +36,8 @@ window.addEventListener("submissionAccepted", (event) => {
 
   const question = extractQuestion();
 
+  console.log("Current question:", question);
+
   const submissionAccepted = {
     submissionId: event.detail.submissionId,
     language: event.detail.language,
@@ -57,3 +59,15 @@ window.addEventListener("submissionAccepted", (event) => {
     data: submissionAccepted,
   });
 });
+
+const question = extractQuestion();
+
+chrome.runtime.sendMessage(
+  {
+    type: "GET_SUBMISSIONS_BY_SLUG",
+    data: question.slug,
+  },
+  (submissions) => {
+    console.log("Previous submisssions:", submissions);
+  },
+);

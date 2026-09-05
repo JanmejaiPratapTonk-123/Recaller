@@ -1,8 +1,18 @@
-chrome.runtime.onMessage.addListener((message, sender, sendResponese) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "SUBMISSION_ACCEPTED") {
     const submission = message.data;
 
     processSubmission(submission);
+  }
+
+  if (message.type == "GET_SUBMISSIONS_BY_SLUG") {
+    const slug = message.data;
+
+    getSubmissionsBySlug(slug).then((submissions) => {
+      sendResponse(submissions);
+    });
+
+    return true;
   }
 });
 
@@ -29,13 +39,13 @@ function getSubmissions() {
 
 getSubmissions();
 
-function getSubmissionsByQuestionId(questionId) {
+function getSubmissionsBySlug(slug) {
   return new Promise((resolve) => {
     chrome.storage.local.get("submissions", (result) => {
       const submissions = result.submissions ?? [];
 
       const filteredSubmissions = submissions.filter((submission) => {
-        return submission.questionId === questionId;
+        return String(submission.slug) === String(slug);
       });
 
       resolve(filteredSubmissions);
