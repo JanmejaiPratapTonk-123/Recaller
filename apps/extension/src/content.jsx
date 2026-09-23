@@ -1,3 +1,7 @@
+import { createRoot } from "react-dom/client";
+import App from "./App";
+import "./index.css";
+
 console.log("Recaller content script loaded!");
 
 function extractQuestion() {
@@ -60,14 +64,9 @@ window.addEventListener("submissionAccepted", (event) => {
   });
 });
 
-const question = extractQuestion();
+const root = document.createElement("div");
+root.id = "recaller-root";
 
-chrome.runtime.sendMessage(
-  {
-    type: "GET_SUBMISSIONS_BY_SLUG",
-    data: question.slug,
-  },
-  (submissions) => {
-    console.log("Previous submisssions:", submissions);
-  },
-);
+document.body.appendChild(root);
+
+createRoot(root).render(<App />);
